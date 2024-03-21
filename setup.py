@@ -7,7 +7,7 @@ setup(
     url='https://github.com/g2p/rfc6266',
     keywords='rfc6266 Content-Disposition http attachments',
     name='rfc6266',
-    version='0.0.4+syslab3.dev0',
+    version='0.0.4+syslab.1',
     license='GNU LGPL',
     platforms='OS-independent',
     py_modules=['rfc6266', 'test_rfc6266'],
