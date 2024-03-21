@@ -1,5 +1,3 @@
-# vim: set fileencoding=utf-8 sw=4 ts=4 et :
-
 from rfc6266 import (
     parse_headers, parse_httplib2_response, parse_requests_response,
     build_header)
@@ -14,13 +12,13 @@ def test_parsing():
         'attachment; filename=simple').filename_unsafe == 'simple'
 
     # test ISO-8859-1
-    fname = parse_headers(u'attachment; filename="oyé"').filename_unsafe
-    assert fname == u'oyé', repr(fname)
+    fname = parse_headers('attachment; filename="oyé"').filename_unsafe
+    assert fname == 'oyé', repr(fname)
 
     cd = parse_headers(
         'attachment; filename="EURO rates";'
         ' filename*=utf-8\'\'%e2%82%ac%20rates')
-    assert cd.filename_unsafe == u'€ rates'
+    assert cd.filename_unsafe == '€ rates'
 
 
 @pytest.mark.skipif("(3,0) <= sys.version_info < (3,3)")
@@ -45,15 +43,15 @@ def test_requests(httpserver):
 def test_location_fallback():
     assert parse_headers(
         None, location='https://foo/bar%c3%a9.py'
-    ).filename_unsafe == u'baré.py'
+    ).filename_unsafe == 'baré.py'
 
     assert parse_headers(
         None, location='https://foo/'
-    ).filename_unsafe == u''
+    ).filename_unsafe == ''
 
     assert parse_headers(
         None, location='https://foo/%C3%A9toil%C3%A9/'
-    ).filename_unsafe == u'étoilé'
+    ).filename_unsafe == 'étoilé'
 
 
 def test_strict():
@@ -77,7 +75,7 @@ def test_relaxed():
     cd = parse_headers(
         'attachment; filename="spa  ced";',
         relaxed=True)
-    assert cd.filename_unsafe == u'spa ced'
+    assert cd.filename_unsafe == 'spa ced'
 
 
 
@@ -93,5 +91,5 @@ def test_roundtrip():
     assert_roundtrip('a b ')
     assert_roundtrip(' a b')
     assert_roundtrip('a\"b')
-    assert_roundtrip(u'aéio   o♥u"qfsdf!')
+    assert_roundtrip('aéio   o♥u"qfsdf!')
 

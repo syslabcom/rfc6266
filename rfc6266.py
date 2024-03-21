@@ -1,5 +1,3 @@
-# vim: set fileencoding=utf-8 sw=4 ts=4 et :
-
 """Implements RFC 6266, the Content-Disposition HTTP header.
 
 parse_headers handles the receiver side.
@@ -61,7 +59,7 @@ else:
         return unquote(string, **kwargs).decode(encoding)
 
 
-class ContentDisposition(object):
+class ContentDisposition:
     """
     Records various indications and hints about content disposition.
 
@@ -83,7 +81,7 @@ class ContentDisposition(object):
             self.assocs = {}
         else:
             # XXX Check that parameters aren't repeated
-            self.assocs = dict((key.lower(), val) for (key, val) in assocs)
+            self.assocs = {key.lower(): val for (key, val) in assocs}
 
     @property
     def filename_unsafe(self):
@@ -160,7 +158,7 @@ class ContentDisposition(object):
         return self.disposition.lower() == 'inline'
 
     def __repr__(self):
-        return 'ContentDisposition(%r, %r, %r)' % (
+        return 'ContentDisposition({!r}, {!r}, {!r})'.format(
             self.disposition, self.assocs, self.location)
 
 
@@ -428,26 +426,26 @@ def build_header(
     rv = disposition
 
     if is_token(filename):
-        rv += '; filename=%s' % (filename, )
+        rv += '; filename={}'.format(filename)
         return rv
     elif is_ascii(filename) and is_lws_safe(filename):
         qd_filename = qd_quote(filename)
-        rv += '; filename="%s"' % (qd_filename, )
+        rv += '; filename="{}"'.format(qd_filename)
         if qd_filename == filename:
             # RFC 6266 claims some implementations are iffy on qdtext's
             # backslash-escaping, we'll include filename* in that case.
             return rv
     elif filename_compat:
         if is_token(filename_compat):
-            rv += '; filename=%s' % (filename_compat, )
+            rv += '; filename={}'.format(filename_compat)
         else:
             assert is_lws_safe(filename_compat)
-            rv += '; filename="%s"' % (qd_quote(filename_compat), )
+            rv += '; filename="{}"'.format(qd_quote(filename_compat))
 
     # alnum are already considered always-safe, but the rest isn't.
     # Python encodes ~ when it shouldn't, for example.
-    rv += "; filename*=utf-8''%s" % (percent_encode(
-        filename, safe=attr_chars_nonalnum, encoding='utf-8'), )
+    rv += "; filename*=utf-8''{}".format(percent_encode(
+        filename, safe=attr_chars_nonalnum, encoding='utf-8'))
 
     # This will only encode filename_compat, if it used non-ascii iso-8859-1.
     return rv.encode('iso-8859-1')
