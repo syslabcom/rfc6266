@@ -15,7 +15,7 @@ setup(
     install_requires=['LEPL'],
     use_2to3=True,
     long_description=open('README').read(),
-    classifiers=(
+    classifiers=[
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: Implementation :: CPython',
@@ -23,6 +23,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
         'Topic :: Internet :: WWW/HTTP',
-    ),
+    ],
 )
 
