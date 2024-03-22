@@ -14,8 +14,8 @@ setup(
     install_requires=['LEPL'],
     long_description=open('README').read(),
     classifiers=[
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Intended Audience :: Developers',
@@ -23,4 +23,3 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
     ],
 )
-
